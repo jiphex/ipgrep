@@ -54,7 +54,6 @@ func ipMatches(target *net.IPNet, queue <-chan linelast, matches chan<- net.IP, 
 
 func main() {
   verbose := flag.Bool("verbose", false, "Show errors/stuff")
-  usage := flag.Bool("usage", )
   flag.Parse()
   s := make([]chan linelast, 0)
   matches := make(chan net.IP)
