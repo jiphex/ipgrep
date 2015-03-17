@@ -54,11 +54,31 @@ func ipMatches(target *net.IPNet, queue <-chan linelast, matches chan<- net.IP, 
 
 func main() {
   verbose := flag.Bool("verbose", false, "Show errors/stuff")
+  patternsFile := flag.String("patterns", "", "Load search patterns from file")
   flag.Parse()
   s := make([]chan linelast, 0)
   matches := make(chan net.IP)
   wait := &sync.WaitGroup{}
-  for _,i := range flag.Args() {
+  matchSpecs := make(map[string]bool)
+  if *patternsFile != "" {
+    pfile,err := os.Open(*patternsFile)
+    if err != nil {
+      fmt.Fprintf(os.Stderr, "Failed to read patterns file %s: %s", *patternsFile, err)
+      os.Exit(1)
+    }
+    defer pfile.Close()
+    lscan := bufio.NewScanner(pfile)
+    for lscan.Scan() {
+      line := strings.TrimSpace(lscan.Text())
+      if !strings.HasPrefix(line, "#") {
+        matchSpecs[strings.TrimSpace(lscan.Text())] = true
+      }
+    }
+  }
+  for _,arg := range flag.Args() {
+    matchSpecs[strings.TrimSpace(arg)] = true
+  }
+  for i := range matchSpecs {
     m := str2net(i)
     if m != nil {
       recp := make(chan linelast)
