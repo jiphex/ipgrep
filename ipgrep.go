@@ -3,6 +3,8 @@
 //
 // Usage: ipgrep 1.2.3.4/24 2.3.4.5/12 2001:db0:1::30/64 ... < listofips
 
+// test
+
 package main
 
 import (
