@@ -20,6 +20,7 @@ Simply as follows
 ## Missing Features
 
 * No support for `-v` to invert matches.
+* Others
 
 ## Blame
 
