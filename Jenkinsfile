@@ -1,5 +1,6 @@
-node('master') {
+node {
   stage 'build'
   checkout scm
-  sh 'go build'
+  sh 'debuild -us -uc'
+  step ([artifacts: "**/*.deb", fingerprint: true])
 }
