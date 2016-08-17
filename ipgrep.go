@@ -20,9 +20,9 @@ import (
 func str2net(s string) (ipm *net.IPNet) {
 	if !strings.Contains(s, "/") {
 		if !strings.Contains(":") {
-			s += "/128"
-		} else {
 			s += "/32"
+		} else {
+			s += "/128"
 		}
 	}
 	_, ipm, err := net.ParseCIDR(s)
